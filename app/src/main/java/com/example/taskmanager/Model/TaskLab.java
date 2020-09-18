@@ -26,6 +26,7 @@ public class TaskLab {
             Task task = new Task();
             task.setTitle("Sprawa nr " + i);
             task.setSolved(i % 2 == 0);
+            task.setDifficult(i % 3 == 0);
             tasks.add(task);
         }
     }

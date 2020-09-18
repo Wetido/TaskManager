@@ -9,6 +9,7 @@ public class Task {
     private String Title;
     private Date Date;
     private boolean Solved;
+    private boolean IsDifficult;
 
     public Task() {
         this.Id = UUID.randomUUID();
@@ -45,5 +46,17 @@ public class Task {
 
     public void setSolved(boolean Solved) {
         this.Solved = Solved;
+    }
+
+    public boolean isSolved() {
+        return Solved;
+    }
+
+    public boolean isDifficult() {
+        return IsDifficult;
+    }
+
+    public void setDifficult(boolean difficult) {
+        IsDifficult = difficult;
     }
 }

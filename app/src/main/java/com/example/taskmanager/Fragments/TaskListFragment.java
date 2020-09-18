@@ -54,8 +54,8 @@ public class TaskListFragment extends Fragment {
         private TextView mTitleTextView;
         private TextView mDateTextView;
 
-        public TaskHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.list_item_task,parent, false));
+        public TaskHolder(LayoutInflater inflater, ViewGroup parent, int layoutId) {
+            super(inflater.inflate(layoutId,parent, false));
 
             mTitleTextView = itemView.findViewById(R.id.task_title);
             mDateTextView = itemView.findViewById(R.id.task_date);
@@ -70,7 +70,6 @@ public class TaskListFragment extends Fragment {
         }
 
         public void bind(Task task){
-
             mTask = task;
             mTitleTextView.setText(mTask.getTitle());
             mDateTextView.setText(mTask.getDate().toString());
@@ -87,7 +86,7 @@ public class TaskListFragment extends Fragment {
         @Override
         public TaskHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-            return new TaskHolder(layoutInflater, parent);
+            return new TaskHolder(layoutInflater, parent, viewType);
         }
 
         @Override
@@ -99,6 +98,16 @@ public class TaskListFragment extends Fragment {
         @Override
         public int getItemCount() {
             return tasks.size();
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            Task crime = tasks.get(position);
+            if (crime.isDifficult()) {
+                return R.layout.list_item_difficult_task;
+            } else {
+                return R.layout.list_item_task;
+            }
         }
     }
 }
