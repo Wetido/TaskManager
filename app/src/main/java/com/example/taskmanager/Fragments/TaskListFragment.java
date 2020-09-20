@@ -17,8 +17,8 @@ import com.example.taskmanager.Model.Task;
 import com.example.taskmanager.Model.TaskLab;
 import com.example.taskmanager.R;
 
-import org.w3c.dom.Text;
-
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class TaskListFragment extends Fragment {
@@ -72,7 +72,7 @@ public class TaskListFragment extends Fragment {
         public void bind(Task task){
             mTask = task;
             mTitleTextView.setText(mTask.getTitle());
-            mDateTextView.setText(mTask.getDate().toString());
+            mDateTextView.setText(formatDate(mTask.getDate()));
         }
     }
 
@@ -109,5 +109,15 @@ public class TaskListFragment extends Fragment {
                 return R.layout.list_item_task;
             }
         }
+    }
+
+    String formatDate(Date date){
+
+        String pattern = "yyyy-MM-dd HH:mm:ss";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+
+        String result = simpleDateFormat.format(date);
+
+        return result;
     }
 }

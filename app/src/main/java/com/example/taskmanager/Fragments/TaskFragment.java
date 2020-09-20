@@ -21,6 +21,9 @@ import androidx.fragment.app.Fragment;
 import com.example.taskmanager.Model.Task;
 import com.example.taskmanager.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import static android.widget.CompoundButton.*;
 
 public class TaskFragment extends Fragment {
@@ -61,7 +64,9 @@ public class TaskFragment extends Fragment {
         });
 
         mDateButton = v.findViewById(R.id.task_date);
-        mDateButton.setText(mTask.getDate().toString());
+
+
+        mDateButton.setText( formatDate(mTask.getDate()));
         mDateButton.setEnabled(false);
 
         mSolvedCheckBox = v.findViewById(R.id.task_solved);
@@ -75,4 +80,16 @@ public class TaskFragment extends Fragment {
 
         return v;
     }
+
+    String formatDate(Date date){
+
+        String pattern = "yyyy-MM-dd HH:mm:ss";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+
+        String result = simpleDateFormat.format(date);
+
+        return result;
+    }
 }
+
+
