@@ -1,5 +1,6 @@
 package com.example.taskmanager.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.taskmanager.Controller.TaskActivity;
 import com.example.taskmanager.Model.Task;
 import com.example.taskmanager.Model.TaskLab;
 import com.example.taskmanager.R;
@@ -64,7 +66,8 @@ public class TaskListFragment extends Fragment {
                 @Override
                 public void onClick(View View) {
 
-                    Toast.makeText(getActivity(), mTask.getTitle(), Toast.LENGTH_SHORT).show();
+                    Intent intent = TaskActivity.newIntent(getActivity(), mTask.getId());
+                    startActivity(intent);
                 }
             });
         }

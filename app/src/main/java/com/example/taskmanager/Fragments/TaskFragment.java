@@ -19,14 +19,19 @@ import androidx.constraintlayout.widget.ConstraintsChangedListener;
 import androidx.fragment.app.Fragment;
 
 import com.example.taskmanager.Model.Task;
+import com.example.taskmanager.Model.TaskLab;
 import com.example.taskmanager.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 import static android.widget.CompoundButton.*;
 
 public class TaskFragment extends Fragment {
+
+    private static final String ARG_TASK_ID = "task_id";
+
 
     private Task mTask;
     private EditText mTitleField;
@@ -37,7 +42,16 @@ public class TaskFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mTask = new Task();
+        UUID taskId = (UUID) getArguments().getSerializable(ARG_TASK_ID);
+        mTask = TaskLab.get(getActivity()).getTask(taskId);
+    }
+
+    public static TaskFragment newInstance(UUID taskID){
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_TASK_ID, taskID);
+        TaskFragment fragment = new TaskFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Nullable
@@ -46,6 +60,7 @@ public class TaskFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_task, container, false);
         mTitleField = v.findViewById(R.id.task_title);
+        mTitleField.setText(mTask.getTitle());
         mTitleField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -64,12 +79,14 @@ public class TaskFragment extends Fragment {
         });
 
         mDateButton = v.findViewById(R.id.task_date);
+        mDateButton.setText(formatDate(mTask.getDate()));
 
 
         mDateButton.setText( formatDate(mTask.getDate()));
         mDateButton.setEnabled(false);
 
         mSolvedCheckBox = v.findViewById(R.id.task_solved);
+        mSolvedCheckBox.setChecked(mTask.isDifficult());
         mSolvedCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
             @Override
