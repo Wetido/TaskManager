@@ -27,6 +27,7 @@ public class TaskListFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private TaskAdapter mAdapter;
+    private int mClickedItemPosition;
 
     @Nullable
     @Override
@@ -42,13 +43,24 @@ public class TaskListFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateUI();
+    }
+
     private void updateUI(){
 
         TaskLab taskLab = TaskLab.get(getActivity());
         List<Task> tasks = taskLab.getTasks();
 
-        mAdapter = new TaskAdapter(tasks);
-        mRecyclerView.setAdapter(mAdapter);
+        if(mAdapter == null){
+            mAdapter = new TaskAdapter(tasks);
+            mRecyclerView.setAdapter(mAdapter);
+        } else {
+
+            mAdapter.notifyItemChanged(mClickedItemPosition);
+        }
     }
 
     private class TaskHolder extends RecyclerView.ViewHolder{
@@ -66,6 +78,7 @@ public class TaskListFragment extends Fragment {
                 @Override
                 public void onClick(View View) {
 
+                    mClickedItemPosition = getAdapterPosition();
                     Intent intent = TaskActivity.newIntent(getActivity(), mTask.getId());
                     startActivity(intent);
                 }
