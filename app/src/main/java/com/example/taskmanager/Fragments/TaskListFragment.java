@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.taskmanager.Controller.TaskActivity;
+import com.example.taskmanager.Controller.TaskPagerActivity;
 import com.example.taskmanager.Model.Task;
 import com.example.taskmanager.Model.TaskLab;
 import com.example.taskmanager.R;
@@ -59,7 +60,7 @@ public class TaskListFragment extends Fragment {
             mRecyclerView.setAdapter(mAdapter);
         } else {
 
-            mAdapter.notifyItemChanged(mClickedItemPosition);
+            mAdapter.notifyDataSetChanged();
         }
     }
 
@@ -78,8 +79,8 @@ public class TaskListFragment extends Fragment {
                 @Override
                 public void onClick(View View) {
 
-                    mClickedItemPosition = getAdapterPosition();
-                    Intent intent = TaskActivity.newIntent(getActivity(), mTask.getId());
+                    //mClickedItemPosition = getAdapterPosition();
+                    Intent intent = TaskPagerActivity.newIntent(getActivity(), mTask.getId());
                     startActivity(intent);
                 }
             });
