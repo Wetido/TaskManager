@@ -3,7 +3,9 @@ package com.example.taskmanager.Controller;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewParent;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,6 +30,8 @@ public class TaskPagerActivity extends AppCompatActivity {
     private static final String EXTRA_TASK_ID = "task_id";
     private ViewPager mViewPager;
     private List<Task> tasks;
+    private Button mJumpToFirst;
+    private Button mJumpToLast;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,6 +63,47 @@ public class TaskPagerActivity extends AppCompatActivity {
                 break;
             }
         }
+
+
+        mJumpToFirst = findViewById(R.id.jumpToStart);
+        mJumpToFirst.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View View) {
+                mViewPager.setCurrentItem(0);
+            }
+        });
+        mJumpToLast = findViewById(R.id.jumpToEnd);
+        mJumpToLast.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View View) {
+                mViewPager.setCurrentItem(tasks.size() - 1);
+            }
+        });
+
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 0) {
+                    mJumpToFirst.setEnabled(false);
+                    mJumpToLast.setEnabled(true);
+                } else if (position == tasks.size() - 1) {
+                    mJumpToLast.setEnabled(false);
+                    mJumpToFirst.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+
     }
 
     public static Intent newIntent(Context context, UUID taskId){
